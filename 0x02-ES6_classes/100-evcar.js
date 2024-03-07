@@ -1,32 +1,22 @@
-import Car from './10-car.js';
+import Car from './10-car';
 
 export default class EVCar extends Car {
   constructor(brand, motor, color, range) {
-    // Call the parent class constructor
     super(brand, motor, color);
-
-    // Verify the type of the 'range' attribute
-    if (typeof range !== 'string') {
-      throw new Error('Invalid attribute type for range');
-    }
-
-    // Store attributes with underscores
-    this._range = range;
+    this.range = range;
   }
 
-  // Getter for the 'range' attribute
   get range() {
     return this._range;
   }
 
-  // Override the cloneCar method
+  set range(value) {
+    this._range = value;
+  }
+
   cloneCar() {
-    // Create a new instance of the Car class with the same attribute values
-    const clonedCar = new Car(this._brand, this._motor, this._color);
+    const Species = super.constructor[Symbol.species];
 
-    // Attach a symbol to the cloned car instance to indicate it's a clone
-    clonedCar[Car.cloneKey] = true;
-
-    return clonedCar;
+    return new Species();
   }
 }
